@@ -21,9 +21,7 @@ export async function connectToDatabase() {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       })
-      .then((mongoose) => {
-        return mongoose;
-      });
+      .then((mongoose) => mongoose);
   }
   cached.conn = await cached.promise;
   return cached.conn;
