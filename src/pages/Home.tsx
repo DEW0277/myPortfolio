@@ -15,7 +15,7 @@ const Home = () => {
     >
       <Hero3D />
 
-      <div className='relative z-10 flex items-center min-h-screen'>
+      <div className='relative z-10 flex items-center min-h-screen pb-12'>
         <div className='container px-6 mx-auto'>
           <div className='grid items-center grid-cols-1 gap-12 lg:grid-cols-2'>
             {/* Left side - Text content */}
@@ -24,7 +24,7 @@ const Home = () => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              <h1 className='mb-6 text-5xl font-bold md:text-7xl'>
+              <h1 className='mb-6 text-5xl font-bold md:text-7xl mt-32'>
                 <span className='text-white'>Hello, I'm</span>
                 <br />
                 <span className='gradient-text animate-glow'>Professional</span>
@@ -54,10 +54,16 @@ const Home = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className='flex items-center gap-3 px-8 py-4 font-semibold text-white transition-all duration-300 rounded-full glass-morphism hover:bg-white/10'
+                  className='flex items-center gap-3 '
                 >
-                  Download CV
-                  <Download size={20} />
+                  <a
+                    href='/cv.pdf'
+                    download
+                    className='flex items-center gap-3 px-8 py-4 font-semibold text-white transition-all duration-300 rounded-full glass-morphism hover:bg-white/10'
+                  >
+                    Download CV
+                    <Download />
+                  </a>
                 </motion.button>
               </div>
             </motion.div>

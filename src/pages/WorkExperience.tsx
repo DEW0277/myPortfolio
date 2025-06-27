@@ -1,65 +1,49 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, Building2 } from 'lucide-react';
 
+interface Experience {
+  _id: string;
+  title: string;
+  company: string;
+  location: string;
+  duration: string;
+  description: string;
+  technologies: string[];
+}
+
 const WorkExperience = () => {
-  const experiences = [
-    {
-      id: 1,
-      title: 'Senior Full Stack Developer',
-      company: 'Tech Innovations Inc.',
-      location: 'San Francisco, CA',
-      duration: '2022 - Present',
-      description: [
-        'Led development of scalable web applications using React and Node.js',
-        'Implemented modern CI/CD pipelines reducing deployment time by 60%',
-        'Mentored junior developers and conducted code reviews',
-        'Collaborated with UX team to improve user experience metrics by 40%',
-      ],
-      technologies: ['React', 'Node.js', 'TypeScript', 'AWS', 'Docker'],
-    },
-    {
-      id: 2,
-      title: 'Full Stack Developer',
-      company: 'Digital Solutions LLC',
-      location: 'Austin, TX',
-      duration: '2020 - 2022',
-      description: [
-        'Developed and maintained multiple client projects using MERN stack',
-        'Built RESTful APIs and integrated third-party services',
-        'Optimized database queries improving application performance by 35%',
-        'Worked closely with clients to gather requirements and deliver solutions',
-      ],
-      technologies: ['MongoDB', 'Express.js', 'React', 'Node.js', 'GraphQL'],
-    },
-    {
-      id: 3,
-      title: 'Frontend Developer',
-      company: 'Creative Web Studio',
-      location: 'Remote',
-      duration: '2019 - 2020',
-      description: [
-        'Created responsive web interfaces using React and Vue.js',
-        'Collaborated with designers to implement pixel-perfect UI components',
-        'Improved website loading speed by 50% through code optimization',
-        'Maintained and updated existing client websites',
-      ],
-      technologies: ['React', 'Vue.js', 'Sass', 'Webpack', 'JavaScript'],
-    },
-    {
-      id: 4,
-      title: 'Junior Web Developer',
-      company: 'StartUp Hub',
-      location: 'New York, NY',
-      duration: '2018 - 2019',
-      description: [
-        'Assisted in development of company website and internal tools',
-        'Learned modern web development frameworks and best practices',
-        'Participated in agile development process and daily standups',
-        'Contributed to open-source projects and company blog',
-      ],
-      technologies: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'MySQL'],
-    },
-  ];
+  const [experiences, setExperiences] = useState<Experience[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/experience');
+        if (response.ok) {
+          const data = await response.json();
+          setExperiences(data);
+        } else {
+          console.error('Failed to fetch experiences');
+        }
+      } catch (error) {
+        console.error('Error fetching experiences:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchExperiences();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className='pt-24 pb-12'>
+        <div className='container mx-auto px-6 text-center'>
+          <h2 className='text-2xl text-white'>Loading experience...</h2>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <motion.div
@@ -88,7 +72,7 @@ const WorkExperience = () => {
         <div className='max-w-4xl mx-auto'>
           {experiences.map((experience, index) => (
             <motion.div
-              key={experience.id}
+              key={experience._id}
               initial={{ x: index % 2 === 0 ? -100 : 100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.4 + index * 0.2, duration: 0.8 }}
@@ -101,7 +85,7 @@ const WorkExperience = () => {
 
               {/* Timeline Dot */}
               <div
-                className='absolute left-6 top-8 w-4 h-4 bg-gold-gradient rounded-full 
+                className='absolute left-6 top-8 w-4 h-4 bg-gold-gradient rounded-full \
                             border-4 border-black z-10'
               />
 
@@ -131,7 +115,7 @@ const WorkExperience = () => {
                 </div>
 
                 <ul className='text-gray-300 mb-6 space-y-2'>
-                  {experience.description.map((item, idx) => (
+                  {experience.description.split('\n').map((item, idx) => (
                     <li key={idx} className='flex items-start gap-3'>
                       <div className='w-1.5 h-1.5 bg-gold-400 rounded-full mt-2 flex-shrink-0' />
                       <span>{item}</span>
@@ -143,7 +127,7 @@ const WorkExperience = () => {
                   {experience.technologies.map((tech) => (
                     <span
                       key={tech}
-                      className='px-3 py-1 bg-gold-400/20 text-gold-400 rounded-full text-sm 
+                      className='px-3 py-1 bg-gold-400/20 text-gold-400 rounded-full text-sm \
                                font-medium'
                     >
                       {tech}
