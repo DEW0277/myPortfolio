@@ -156,9 +156,9 @@ const Dashboard: React.FC = () => {
   const fetchData = async () => {
     try {
       const [projectsRes, experiencesRes, blogsRes] = await Promise.all([
-        fetch('http://localhost:3001/api/projects'),
-        fetch('http://localhost:3001/api/experience'),
-        fetch('http://localhost:3001/api/blog'),
+        fetch('/api/projects'),
+        fetch('/api/experience'),
+        fetch('/api/blogs'),
       ]);
 
       const projectsData = await projectsRes.json();
@@ -178,7 +178,7 @@ const Dashboard: React.FC = () => {
     type: 'projects' | 'experience' | 'blog'
   ) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/${type}/${id}`, {
+      const response = await fetch(`/api/${type}/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -208,8 +208,8 @@ const Dashboard: React.FC = () => {
     try {
       const method = currentItem._id ? 'PUT' : 'POST';
       const url = currentItem._id
-        ? `http://localhost:3001/api/${currentItem.type}/${currentItem._id}`
-        : `http://localhost:3001/api/${currentItem.type}`;
+        ? `/api/${currentItem.type}/${currentItem._id}`
+        : `/api/${currentItem.type}`;
 
       const response = await fetch(url, {
         method,
